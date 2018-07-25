@@ -49,20 +49,20 @@ services:
       mode: replicated
       replicas: 1
 
-    filebeat:
-      image: mapleobserver/filebeat:6.2.4
-      configs:
-        - source: filebeat_config
-          target: /usr/share/filebeat/filebeat.yml
-      volumes:
-        - /var/lib/docker:/var/lib/docker/
-        - /var/run/docker.sock:/var/run/docker.sock
-      logging:
-        driver: journald
-      networks:
-        - elk
-      deploy: 
-        mode: global
+  filebeat:
+    image: mapleobserver/filebeat:6.2.4
+    configs:
+      - source: filebeat_config
+        target: /usr/share/filebeat/filebeat.yml
+    volumes:
+      - /var/lib/docker:/var/lib/docker/
+      - /var/run/docker.sock:/var/run/docker.sock
+    logging:
+      driver: journald
+    networks:
+      - elk
+    deploy: 
+      mode: global
 
 configs:
 

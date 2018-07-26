@@ -1,0 +1,29 @@
+#========================== Filebeat autodiscover ==============================
+# 这个存在一个问题，就是只能收集docker run发布的容器，如果是docker service/stack 发布的，收集不到
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      templates:
+        - condition:
+            and:
+              - regexp: 
+                  docker.container.name: '.*'
+            # equals.docker.container.image: nginx
+          config:
+            - type: docker
+              containers.ids:
+                - ${data.docker.container.id}
+              # paths:
+              #   - /var/lib/docker/containers/${data.docker.container.id}/*.log
+
+
+#=========================== Filebeat prospectors =============================
+# filebeat.prospectors:
+#   - type: log
+#     enabled: true
+#     paths:
+#       - /var/lib/docker/containers/${data.docker.container.id}/*.log
+
+
+output.elasticsearch:
+  hosts: ['elasticsearch:9200']

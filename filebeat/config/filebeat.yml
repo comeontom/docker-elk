@@ -6,7 +6,7 @@ filebeat.autodiscover:
         - condition:
             and:
               - regexp: 
-                docker.container.name: '^filebeat*'
+                  docker.container.name: '^filebeat*'
             # equals.docker.container.image: nginx
           config:
             - type: log

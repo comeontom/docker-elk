@@ -4,7 +4,10 @@ filebeat.autodiscover:
     - type: docker
       templates:
         - condition:
-            equals.docker.container.image: nginx
+            and:
+              - regexp: 
+                docker.container.name: '^filebeat*'
+            # equals.docker.container.image: nginx
           config:
             - type: log
               paths:

@@ -9,9 +9,11 @@ filebeat.autodiscover:
                   docker.container.name: '^filebeat*'
             # equals.docker.container.image: nginx
           config:
-            - type: log
-              paths:
-                - /var/lib/docker/containers/${data.docker.container.id}/*.log
+            - type: docker
+              containers.ids:
+                - ${data.docker.container.id}
+              # paths:
+              #   - /var/lib/docker/containers/${data.docker.container.id}/*.log
 
 
 #=========================== Filebeat prospectors =============================

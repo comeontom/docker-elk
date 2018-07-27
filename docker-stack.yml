@@ -12,6 +12,8 @@ services:
         target: /usr/share/elasticsearch/config/elasticsearch.yml
     volumes:
       - /etc/localtime:/etc/localtime
+    logging:
+      driver: journald
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
@@ -32,6 +34,8 @@ services:
         target: /usr/share/logstash/pipeline/logstash.conf
     volumes:
       - /etc/localtime:/etc/localtime
+    logging:
+      driver: journald
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
@@ -49,6 +53,8 @@ services:
         target: /usr/share/kibana/config/kibana.yml
     volumes:
       - /etc/localtime:/etc/localtime
+    logging:
+      driver: journald
     networks:
       - elk
     deploy:

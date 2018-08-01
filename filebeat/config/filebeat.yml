@@ -9,7 +9,7 @@ filebeat.autodiscover:
             and:
               - regexp: 
                   docker.container.name: '.*'
-          config:autodiscover
+          config:
             - type: docker
               containers.ids:
                 - ${data.docker.container.id}

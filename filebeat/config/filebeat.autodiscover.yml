@@ -1,5 +1,6 @@
 #========================== Filebeat autodiscover ==============================
-# 这个存在一个问题，就是只能收集docker run发布的容器，如果是docker service/stack 发布的，收集不到
+# 实时监控文件中的内容[但是之前的内容不会上传到output中去]
+# 缺点是，如果filebeat没有运行的话，中间产生的日志会缺失
 filebeat.autodiscover:
   providers:
     - type: docker
@@ -8,7 +9,6 @@ filebeat.autodiscover:
             and:
               - regexp: 
                   docker.container.name: '.*'
-            # equals.docker.container.image: nginx
           config:
             - type: docker
               containers.ids:

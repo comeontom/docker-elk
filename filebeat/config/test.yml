@@ -1,0 +1,31 @@
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      templates:
+        - condition:
+            and:
+              - regexp: 
+                  docker.container.name: '.*'
+          config:
+            - type: docker
+              containers.ids:
+                - ${data.docker.container.id}
+
+# filebeat.prospectors:
+# - type: log
+#   paths:
+#     - '/var/lib/docker/containers/*/*.log'
+#   json.message_key: log
+#   json.keys_under_root: true
+#   processors:
+#   - add_docker_metadata: ~
+
+output.elasticsearch:
+  hosts: ['139.129.20.182:9200']
+
+
+# filebeat.prospectors:
+# - type: log
+#   enabled: true
+#   paths:
+#     - /var/lib/docker/containers/*/*.log

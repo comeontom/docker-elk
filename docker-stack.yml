@@ -25,7 +25,7 @@ services:
   logstash:
     image: mapleobserver/elastic-logstash:6.2.4
     ports:
-      - "5000:5000"
+      - "5044:5044"
       - "9600:9600"
     configs:
       - source: logstash_config

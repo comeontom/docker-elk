@@ -1,16 +1,22 @@
-# 将指定的日志上传的output中去【所有的日志，包括之前的】
-# 有一个缺点时，如果重启一次filebeat，则会将之前的内容重复上传
-filebeat.prospectors:
-- type: log
-  paths:
-    - '/var/lib/docker/containers/*/*.log'
-  json.message_key: log
-  json.keys_under_root: true
-  processors:
-  - add_docker_metadata: ~
+#========================== Filebeat autodiscover ==============================
+# 实时监控文件中的内容[但是之前的内容不会上传到output中去]
+# 缺点是，如果filebeat没有运行的话，中间产生的日志会缺失
+# 还有一个缺点是：如果使用docker stack/service发布时会获取不到docker内容
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      templates:
+        - condition:
+            and:
+              - regexp: 
+                  docker.container.name: '.*'
+          config:
+            - type: docker
+              containers.ids:
+                - ${data.docker.container.id}
+              # paths:
+              #   - /var/lib/docker/containers/${data.docker.container.id}/*.log
 
-# output.elasticsearch:
-#   hosts: ["elasticsearch:9200"]
 
-output.logstash:
-  hosts: ["logstash:5044"]
+output.elasticsearch:
+  hosts: ['elasticsearch:9200']

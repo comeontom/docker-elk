@@ -1,13 +1,20 @@
 # 将指定的日志上传的output中去【所有的日志，包括之前的】
 # 有一个缺点时，如果重启一次filebeat，则会将之前的内容重复上传
 filebeat.prospectors:
-- type: docker
-  containers.ids:
-    - ${data.docker.container.id}
-  json.message_key: docker
+- type: log
+  # paths:
+  #   - '/var/lib/docker/containers/*/*.log'
+  json.message_key: log
   json.keys_under_root: true
   processors:
-  - add_docker_metadata: ~
+  # - add_docker_metadata: ~
+  - add_docker_metadata:
+    host: "unix:///var/run/docker.sock"
+    match_fields: ["system.process.cgroup.id"]
+    match_pids: ["process.pid", "process.ppid"]
+    match_source: true
+    match_source_index: 4
+    cleanup_timeout: 60
 
 output.elasticsearch:
   hosts: ["elasticsearch:9200"]

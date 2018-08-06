@@ -14,8 +14,9 @@ filebeat.autodiscover:
             - type: docker
               containers.ids:
                 - ${data.docker.container.id}
-              # paths:
-              #   - /var/lib/docker/containers/${data.docker.container.id}/*.log
+            # - type: docker
+            #   paths:
+            #     - /var/lib/docker/containers/${data.docker.container.id}/*.log
 
 
 output.elasticsearch:

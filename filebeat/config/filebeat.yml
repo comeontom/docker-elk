@@ -11,11 +11,9 @@ filebeat.autodiscover:
               - regexp: 
                   docker.container.name: '.*'
           config:
-            - type: docker
-              containers.ids:
-                - ${data.docker.container.id}
-              # paths:
-              #   - /var/lib/docker/containers/${data.docker.container.id}/*.log
+            - type: log
+              paths:
+                - /var/lib/docker/containers/${data.docker.container.id}/*.log
 
 
 output.elasticsearch:

@@ -6,6 +6,7 @@ filebeat.prospectors:
     - '/var/lib/docker/containers/*/*.log'
   json.message_key: log
   json.keys_under_root: true
+  json.overwrite_keys: true
   processors:
   - add_docker_metadata: ~
 

@@ -2,22 +2,15 @@
 # 有一个缺点时，如果重启一次filebeat，则会将之前的内容重复上传
 filebeat.prospectors:
 - type: log
-  # paths:
-  #   - '/var/lib/docker/containers/*/*.log'
+  paths:
+    - '/var/lib/docker/containers/*/*.log'
   json.message_key: log
   json.keys_under_root: true
   processors:
-  # - add_docker_metadata: ~
-  - add_docker_metadata:
-    host: "unix:///var/run/docker.sock"
-    match_fields: ["system.process.cgroup.id"]
-    match_pids: ["process.pid", "process.ppid"]
-    match_source: true
-    match_source_index: 4
-    cleanup_timeout: 60
+  - add_docker_metadata: ~
 
-output.elasticsearch:
-  hosts: ["elasticsearch:9200"]
+# output.elasticsearch:
+#   hosts: ["elasticsearch:9200"]
 
-# output.logstash:
-#   hosts: ["logstash:5000"]
+output.logstash:
+  hosts: ["logstash:5044"]
